@@ -54,6 +54,14 @@ img {
   color: rgb(227, 42, 54);
 }
 
+.costcodle-red {
+  color: rgb(227, 42, 54);
+}
+
+.costcodle-blue {
+  color: rgb(0, 96, 169);
+}
+
 .hide {
   display: none;
 }
@@ -98,7 +106,8 @@ img {
 }
 
 .info-title {
-  font-size: 52px;
+  font-size: 38px;
+  text-align: center;
 }
 
 #info-button {
