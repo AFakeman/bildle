@@ -143,13 +143,13 @@ function updateGuessStat() {
   const formattedProductPrice = productPrice.toFixed(2);
   if (gameState.hasWon) {
     guessStats.innerHTML = `<center>You win! Congratulations!🎉</center>`;
-    guessStats.innerHTML += `<center>The price was $${formattedProductPrice}</center>`;
+    guessStats.innerHTML += `<center>The price was €${formattedProductPrice}</center>`;
     return;
   }
 
   if (gameState.guesses.length === 6) {
     guessStats.innerHTML = `<center>Better luck next time!</center>`;
-    guessStats.innerHTML += `<center>The price was $${formattedProductPrice}</center>`;
+    guessStats.innerHTML += `<center>The price was €${formattedProductPrice}</center>`;
   } else {
     guessStats.innerHTML = `Guess: ${gameState.guesses.length + 1}/6`;
   }
@@ -358,7 +358,7 @@ function displayGuess(guess, index = gameState.guesses.length) {
 
   infoContainer.classList.add("guess-direction-container", "animate__flipInX");
 
-  guessValueContainer.innerHTML = `$${guess.guess}`;
+  guessValueContainer.innerHTML = `€${guess.guess}`;
 
   infoContainer.classList.add(guess.closeness);
   infoContainer.innerHTML = guess.direction;

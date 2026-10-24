@@ -23,8 +23,8 @@ function formatNumber(n) {
 }
 
 function formatCurrency(input, blur) {
-  // appends $ to value, validates decimal side
-  // and puts cursor back in right position.
+  // Formats the euro value, validates the decimal side,
+  // and puts the cursor back in the right position.
 
   // get input value
   var input_val = input.val();
