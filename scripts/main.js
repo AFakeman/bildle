@@ -361,7 +361,10 @@ function displayGuess(guess, index = gameState.guesses.length) {
   guessValueContainer.innerHTML = `€${guess.guess}`;
 
   infoContainer.classList.add(guess.closeness);
-  infoContainer.innerHTML = guess.direction;
+  const directionSymbol = document.createElement("span");
+  directionSymbol.className = "guess-direction-symbol";
+  directionSymbol.innerHTML = guess.direction;
+  infoContainer.appendChild(directionSymbol);
 
   guessContainer.classList.add("animate__flipOutX");
 

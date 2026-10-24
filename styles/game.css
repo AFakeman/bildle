@@ -138,6 +138,11 @@
   text-align: center;
 }
 
+.guess-direction-symbol {
+  display: block;
+  transform: translateY(-3px);
+}
+
 .guess-win {
   background-color: rgb(1, 154, 1);
 }
