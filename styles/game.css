@@ -204,7 +204,7 @@
 
 #guess-button {
   font-family: "PT Mono", monospace;
-  font-size: 24px;
+  font-size: 21px;
 
   width: 100%;
   height: 100%;
@@ -222,7 +222,7 @@
 
 #share-button {
   width: auto;
-  font-size: 28px;
+  font-size: 24px;
 
   font-family: "PT Mono", monospace;
 
@@ -255,7 +255,7 @@
 
 #more-button {
   width: auto;
-  font-size: 28px;
+  font-size: 24px;
 
   font-family: "PT Mono", monospace;
 
@@ -276,8 +276,8 @@
 }
 
 .share-icon {
-  height: 80%;
-  margin-left: 10px;
+  height: 70%;
+  margin-left: 4px;
 }
 
 #share-toast {

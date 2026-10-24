@@ -142,7 +142,7 @@ function convertToShareButton() {
   shareButtonElem.addEventListener("click", copyStats);
 
   moreButtonElem.setAttribute("id", "more-button");
-  moreButtonElem.innerHTML = "ОЩЕ";
+  moreButtonElem.innerHTML = "Още";
   moreButtonElem.addEventListener("click", startExtraGame);
 
   actionsElem.appendChild(shareButtonElem);
@@ -240,7 +240,7 @@ function handleInput() {
 }
 
 function copyStats() {
-  let output = isExtraGame ? "BILDLE ОЩЕ" : `BILDLE #${gameNumber}`;
+  let output = isExtraGame ? "BILDLE Още" : `BILDLE #${gameNumber}`;
   if (!gameState.hasWon) {
     output += ` X/6\n`;
   } else {
@@ -357,7 +357,7 @@ function renderGuessInput() {
       />
     </div>
     <div id="button-container">
-      <button id="guess-button" class="active">ПРОВЕРИ</button>
+      <button id="guess-button" class="active">Провери</button>
     </div>`;
 
   input = document.getElementById("guess-input");
