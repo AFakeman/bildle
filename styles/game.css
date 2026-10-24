@@ -240,6 +240,34 @@
   background-color: rgba(227, 42, 54, 0.8);
 }
 
+#end-game-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  width: 100%;
+  height: 100%;
+}
+
+#more-button {
+  width: 100%;
+  font-size: 28px;
+
+  font-family: "PT Mono", monospace;
+
+  flex: 1;
+
+  color: white;
+  border: none;
+  border-radius: 32px;
+  background-color: rgb(1, 154, 1);
+}
+
+#more-button:hover {
+  cursor: pointer;
+  background-color: rgba(1, 154, 1, 0.8);
+}
+
 .share-icon {
   height: 80%;
   margin-left: 10px;

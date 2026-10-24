@@ -11,6 +11,7 @@ let productImage;
 let shakeTimeout;
 let toastTimeout;
 let warningTimeout;
+let guessAnimationTimeouts = [];
 
 /*
   Global variable constants
@@ -21,8 +22,8 @@ const costcodleStartDate = new Date("09/21/2023");
 const gameNumber = getGameNumber();
 
 //Elements with event listeners to play the game
-const input = document.getElementById("guess-input");
-const buttonInput = document.getElementById("guess-button");
+let input = document.getElementById("guess-input");
+let buttonInput = document.getElementById("guess-button");
 
 const infoButton = document.getElementById("info-button");
 infoButton.addEventListener("click", switchState);
@@ -40,11 +41,12 @@ const userStats = JSON.parse(localStorage.getItem("stats")) || {
 };
 
 //User game state
-const gameState = JSON.parse(localStorage.getItem("state")) || {
+let gameState = JSON.parse(localStorage.getItem("state")) || {
   gameNumber: -1,
   guesses: [],
   hasWon: false,
 };
+let isExtraGame = false;
 
 /*
   Starts playing the game. Called at beginning of execution
@@ -53,7 +55,17 @@ const gameState = JSON.parse(localStorage.getItem("state")) || {
 playGame();
 
 function playGame() {
-  fetchGameData(getGameNumber());
+  const savedExtraGame = JSON.parse(localStorage.getItem("extraState"));
+
+  if (savedExtraGame?.dailyGameNumber === gameNumber) {
+    isExtraGame = true;
+    gameState = savedExtraGame;
+    fetchGameData(savedExtraGame.gameNumber);
+    return;
+  }
+
+  localStorage.removeItem("extraState");
+  fetchGameData(gameNumber);
 }
 
 /*
@@ -61,14 +73,15 @@ function playGame() {
 */
 
 //Fetches the current day's game data from the json and starts game
-function fetchGameData(gameNumber) {
+function fetchGameData(productGameNumber) {
   fetch("./games.json")
     .then((response) => response.json())
     .then((json) => {
-      productName = json[`game-${gameNumber}`].name;
-      productPrice = json[`game-${gameNumber}`].price;
+      const product = json[`game-${productGameNumber}`];
+      productName = product.name;
+      productPrice = product.price;
       productPrice = Number(productPrice.slice(1, productPrice.length));
-      productImage = json[`game-${gameNumber}`].image;
+      productImage = product.image;
 
       initializeGame();
     });
@@ -79,6 +92,18 @@ function fetchGameData(gameNumber) {
 */
 
 function initializeGame() {
+  if (isExtraGame) {
+    displayProductCard();
+    updateGameBoard();
+
+    if (gameState.guesses.length < 6 && !gameState.hasWon) {
+      addEventListeners();
+    } else {
+      convertToShareButton();
+    }
+    return;
+  }
+
   //Reset game state and track new game if user last played on a previous day
   if (gameState.gameNumber !== gameNumber) {
     if (gameState.hasWon === false) {
@@ -89,8 +114,8 @@ function initializeGame() {
     gameState.hasWon = false;
     userStats.numGames++;
 
+    saveGameState();
     localStorage.setItem("stats", JSON.stringify(userStats));
-    localStorage.setItem("state", JSON.stringify(gameState));
   }
 
   displayProductCard();
@@ -107,17 +132,29 @@ function initializeGame() {
 function convertToShareButton() {
   const containerElem = document.getElementById("input-container");
   const shareButtonElem = document.createElement("button");
+  const moreButtonElem = document.createElement("button");
+  const actionsElem = document.createElement("div");
+
+  actionsElem.setAttribute("id", "end-game-actions");
   shareButtonElem.setAttribute("id", "share-button");
-  containerElem.innerHTML = "";
   shareButtonElem.innerHTML = `Сподели
   <img src="./assets/share-icon.svg" class="share-icon" />`;
   shareButtonElem.addEventListener("click", copyStats);
-  containerElem.appendChild(shareButtonElem);
+
+  moreButtonElem.setAttribute("id", "more-button");
+  moreButtonElem.innerHTML = "ОЩЕ";
+  moreButtonElem.addEventListener("click", startExtraGame);
+
+  actionsElem.appendChild(shareButtonElem);
+  actionsElem.appendChild(moreButtonElem);
+  containerElem.innerHTML = "";
+  containerElem.appendChild(actionsElem);
 }
 
 function displayProductCard() {
   //First, update the image container with the new product image
   const imageContainer = document.getElementById("image-container");
+  imageContainer.innerHTML = "";
 
   //Create a new image element to dynamically store game image
   const productImageElement = document.createElement("img");
@@ -203,7 +240,7 @@ function handleInput() {
 }
 
 function copyStats() {
-  let output = `Costcodle #${gameNumber}`;
+  let output = isExtraGame ? "BILDLE ОЩЕ" : `BILDLE #${gameNumber}`;
   if (!gameState.hasWon) {
     output += ` X/6\n`;
   } else {
@@ -251,7 +288,7 @@ function copyStats() {
         .share({
           title: "BILDLE",
           text: output,
-          url: "https://costcodle.com",
+          url: "https://billa.afakeman.com",
         })
         .catch((error) => console.error("Share failed:", error));
     }
@@ -300,6 +337,78 @@ function removeEventListeners() {
   buttonInput.removeEventListener("click", buttonEventListener);
 }
 
+function saveGameState() {
+  localStorage.setItem(isExtraGame ? "extraState" : "state", JSON.stringify(gameState));
+}
+
+function renderGuessInput() {
+  const containerElem = document.getElementById("input-container");
+
+  containerElem.className = "guess-container transparent-background";
+  containerElem.innerHTML = `
+    <div id="text-input-container">
+      <div id="input-label">€</div>
+      <input
+        id="guess-input"
+        type="text"
+        pattern="^\\d{1,3}(,\\d{3})*(\\.\\d+)?$"
+        data-type="currency"
+        placeholder="Въведи цена..."
+      />
+    </div>
+    <div id="button-container">
+      <button id="guess-button" class="active">ПРОВЕРИ</button>
+    </div>`;
+
+  input = document.getElementById("guess-input");
+  buttonInput = document.getElementById("guess-button");
+}
+
+async function startExtraGame() {
+  const response = await fetch("./games.json");
+  const json = await response.json();
+  const previousGameNumbers = Object.keys(json)
+    .map((key) => Number(key.replace("game-", "")))
+    .filter((number) => number < gameNumber && number !== gameState.gameNumber);
+
+  if (previousGameNumbers.length === 0) {
+    return;
+  }
+
+  const selectedGameNumber =
+    previousGameNumbers[Math.floor(Math.random() * previousGameNumbers.length)];
+
+  isExtraGame = true;
+  gameState = {
+    dailyGameNumber: gameNumber,
+    gameNumber: selectedGameNumber,
+    guesses: [],
+    hasWon: false,
+  };
+  saveGameState();
+
+  resetBoardForNewGame();
+  const product = json[`game-${selectedGameNumber}`];
+  productName = product.name;
+  productPrice = Number(product.price.slice(1));
+  productImage = product.image;
+  initializeGame();
+}
+
+function resetBoardForNewGame() {
+  guessAnimationTimeouts.forEach((timeout) => clearTimeout(timeout));
+  guessAnimationTimeouts = [];
+  document.getElementById("image-container").innerHTML = "";
+
+  for (let index = 1; index <= 6; index++) {
+    const guessContainer = document.getElementById(index);
+    guessContainer.className = "guess-container";
+    guessContainer.innerHTML = "";
+  }
+
+  renderGuessInput();
+}
+
 /*
   Handles the logic of Costocodle
   Creates a guess object based on user guess and checks win condition
@@ -331,7 +440,7 @@ function checkGuess(guess) {
   }
 
   gameState.guesses.push(guessObj);
-  localStorage.setItem("state", JSON.stringify(gameState));
+  saveGameState();
 
   displayGuess(guessObj);
 
@@ -368,11 +477,12 @@ function displayGuess(guess, index = gameState.guesses.length) {
 
   guessContainer.classList.add("animate__flipOutX");
 
-  setTimeout(() => {
+  const animationTimeout = setTimeout(() => {
     guessContainer.classList.add("transparent-background");
     guessContainer.appendChild(guessValueContainer);
     guessContainer.appendChild(infoContainer);
   }, 500);
+  guessAnimationTimeouts.push(animationTimeout);
 
   updateGuessStat();
 }
@@ -390,24 +500,31 @@ function calculatePercent(guess) {
 */
 
 function gameWon() {
-  userStats.numWins++;
-  userStats.currentStreak++;
-  userStats.winsInNum[gameState.guesses.length - 1]++;
-  if (userStats.currentStreak > userStats.maxStreak) {
-    userStats.maxStreak = userStats.currentStreak;
+  if (!isExtraGame) {
+    userStats.numWins++;
+    userStats.currentStreak++;
+    userStats.winsInNum[gameState.guesses.length - 1]++;
+    if (userStats.currentStreak > userStats.maxStreak) {
+      userStats.maxStreak = userStats.currentStreak;
+    }
   }
   gameState.hasWon = true;
 
-  localStorage.setItem("state", JSON.stringify(gameState));
-  localStorage.setItem("stats", JSON.stringify(userStats));
+  saveGameState();
+  if (!isExtraGame) {
+    localStorage.setItem("stats", JSON.stringify(userStats));
+  }
   removeEventListeners();
   convertToShareButton();
 }
 
 function gameLost() {
-  userStats.currentStreak = 0;
+  if (!isExtraGame) {
+    userStats.currentStreak = 0;
+    localStorage.setItem("stats", JSON.stringify(userStats));
+  }
 
-  localStorage.setItem("stats", JSON.stringify(userStats));
+  saveGameState();
 
   removeEventListeners();
   convertToShareButton();
