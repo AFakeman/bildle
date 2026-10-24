@@ -196,6 +196,16 @@
   background-color: rgb(94, 94, 94);
 }
 
+#guess-input::-webkit-outer-spin-button,
+#guess-input::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+
+#guess-input {
+  -moz-appearance: textfield;
+}
+
 #guess-input::placeholder {
   font-size: 24px;
 

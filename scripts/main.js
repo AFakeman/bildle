@@ -350,9 +350,10 @@ function renderGuessInput() {
       <div id="input-label">€</div>
       <input
         id="guess-input"
-        type="text"
-        pattern="^\\d{1,3}(,\\d{3})*(\\.\\d+)?$"
-        data-type="currency"
+        type="number"
+        inputmode="decimal"
+        min="0"
+        step="0.01"
         placeholder="Въведи цена..."
       />
     </div>
