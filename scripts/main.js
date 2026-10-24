@@ -209,7 +209,7 @@ function buttonEventListener() {
 }
 
 function handleInput() {
-  const strippedString = input.value.replaceAll(",", "");
+  const strippedString = input.value.replaceAll(",", ".");
   const guess = Number(strippedString).toFixed(2);
 
   if (isNaN(guess) || !strippedString) {
@@ -236,6 +236,13 @@ function handleInput() {
         warningElem.classList.add("hide");
       }, 1000);
     }, 2000);
+  }
+}
+
+function normalizeDecimalInput(event) {
+  const normalizedValue = event.target.value.replaceAll(",", ".");
+  if (normalizedValue !== event.target.value) {
+    event.target.value = normalizedValue;
   }
 }
 
@@ -319,6 +326,7 @@ function copyStats() {
 function addEventListeners() {
   input.addEventListener("keydown", inputEventListener);
   buttonInput.addEventListener("click", buttonEventListener);
+  input.addEventListener("input", normalizeDecimalInput);
 
   input.addEventListener("focus", () => {
     input.setAttribute("placeholder", "0.00");
@@ -334,6 +342,7 @@ function removeEventListeners() {
   input.setAttribute("disabled", "");
   input.setAttribute("placeholder", "Играта приключи!");
   input.removeEventListener("keydown", inputEventListener);
+  input.removeEventListener("input", normalizeDecimalInput);
   buttonInput.removeEventListener("click", buttonEventListener);
 }
 
@@ -350,10 +359,8 @@ function renderGuessInput() {
       <div id="input-label">€</div>
       <input
         id="guess-input"
-        type="number"
+        type="text"
         inputmode="decimal"
-        min="0"
-        step="0.01"
         placeholder="Въведи цена..."
       />
     </div>
