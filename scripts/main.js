@@ -418,8 +418,10 @@ function checkGuess(guess) {
   const guessObj = { guess, closeness: "", direction: "" };
 
   const percentAway = calculatePercent(guess);
+  const absoluteDifference = Math.abs(Number(guess) - productPrice);
+  const winningDifference = Math.max(productPrice * 0.05, 0.5);
 
-  if (Math.abs(percentAway) <= 5) {
+  if (absoluteDifference <= winningDifference) {
     guessObj.closeness = "guess-win";
     gameState.hasWon = true;
   } else {
