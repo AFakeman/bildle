@@ -123,23 +123,6 @@ img {
   background: none;
 }
 
-#site-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  border-top: 2px solid gray;
-  background-color: gainsboro;
-}
-
-#database-link {
-  margin-left: 12px;
-}
-
-#dev-name {
-  margin-right: 12px;
-}
-
 ::-webkit-scrollbar {
   width: 4px;
 }
@@ -186,10 +169,6 @@ img {
 
   #product-info {
     width: 225px;
-  }
-
-  #site-footer {
-    font-size: 24px;
   }
 
   #game-stats {
