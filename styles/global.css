@@ -92,7 +92,9 @@ img {
   align-items: center;
   justify-content: space-between;
 
-  width: 344px;
+  container-type: inline-size;
+
+  width: min(344px, 100vw);
 
   border-bottom: 2px solid gray;
 }
@@ -101,13 +103,18 @@ img {
   flex: 1;
   min-width: 0;
 
-  font-size: 50px;
+  font-size: min(50px, 14cqw);
+  overflow: hidden;
+  text-overflow: clip;
   white-space: nowrap;
 }
 
 .info-title {
-  font-size: 38px;
+  font-size: min(38px, 10cqw);
+  overflow: hidden;
   text-align: center;
+  text-overflow: clip;
+  white-space: nowrap;
 }
 
 #info-button {
