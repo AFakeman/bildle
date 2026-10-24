@@ -256,7 +256,7 @@ function copyStats() {
         .catch((error) => console.error("Share failed:", error));
     }
   } else {
-    output += `https://costcodle.com`;
+    output += `https://billa.afakeman.com`;
     navigator.clipboard.writeText(output);
     displayToast();
   }
