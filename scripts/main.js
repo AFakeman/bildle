@@ -74,7 +74,7 @@ function playGame() {
 
 //Fetches the current day's game data from the json and starts game
 function fetchGameData(productGameNumber) {
-  fetch("./games.json")
+  fetch("./games.json?v=2")
     .then((response) => response.json())
     .then((json) => {
       const product = json[`game-${productGameNumber}`];
@@ -365,7 +365,7 @@ function renderGuessInput() {
 }
 
 async function startExtraGame() {
-  const response = await fetch("./games.json");
+  const response = await fetch("./games.json?v=2");
   const json = await response.json();
   const previousGameNumbers = Object.keys(json)
     .map((key) => Number(key.replace("game-", "")))
