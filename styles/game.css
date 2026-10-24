@@ -221,14 +221,18 @@
 }
 
 #share-button {
-  width: 100%;
+  width: auto;
   font-size: 28px;
 
   font-family: "PT Mono", monospace;
 
   display: flex;
   align-items: center;
+  flex: 1;
   justify-content: center;
+
+  min-width: 0;
+  height: 100%;
 
   color: white;
   border: none;
@@ -242,7 +246,7 @@
 
 #end-game-actions {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 5px;
 
   width: 100%;
@@ -250,12 +254,15 @@
 }
 
 #more-button {
-  width: 100%;
+  width: auto;
   font-size: 28px;
 
   font-family: "PT Mono", monospace;
 
   flex: 1;
+
+  min-width: 0;
+  height: 100%;
 
   color: white;
   border: none;
