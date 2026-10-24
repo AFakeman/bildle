@@ -171,7 +171,7 @@
 }
 
 #guess-input {
-  font-family: "VT323", monospace;
+  font-family: "PT Mono", monospace;
   font-size: 24px;
 
   width: 180px;
@@ -191,7 +191,7 @@
 }
 
 #guess-button {
-  font-family: "VT323", monospace;
+  font-family: "PT Mono", monospace;
   font-size: 24px;
 
   width: 100%;
@@ -212,7 +212,7 @@
   width: 100%;
   font-size: 28px;
 
-  font-family: "VT323", monospace;
+  font-family: "PT Mono", monospace;
 
   display: flex;
   align-items: center;
