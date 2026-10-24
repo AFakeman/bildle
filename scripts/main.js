@@ -140,15 +140,16 @@ function updateGameBoard() {
 
 function updateGuessStat() {
   const guessStats = document.getElementById("game-stats");
+  const formattedProductPrice = productPrice.toFixed(2);
   if (gameState.hasWon) {
     guessStats.innerHTML = `<center>You win! Congratulations!🎉</center>`;
-    guessStats.innerHTML += `<center>The price was $${productPrice}</center>`;
+    guessStats.innerHTML += `<center>The price was $${formattedProductPrice}</center>`;
     return;
   }
 
   if (gameState.guesses.length === 6) {
     guessStats.innerHTML = `<center>Better luck next time!</center>`;
-    guessStats.innerHTML += `<center>The price was $${productPrice}</center>`;
+    guessStats.innerHTML += `<center>The price was $${formattedProductPrice}</center>`;
   } else {
     guessStats.innerHTML = `Guess: ${gameState.guesses.length + 1}/6`;
   }
