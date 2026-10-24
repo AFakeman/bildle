@@ -109,7 +109,7 @@ function convertToShareButton() {
   const shareButtonElem = document.createElement("button");
   shareButtonElem.setAttribute("id", "share-button");
   containerElem.innerHTML = "";
-  shareButtonElem.innerHTML = `Share
+  shareButtonElem.innerHTML = `Сподели
   <img src="./assets/share-icon.svg" class="share-icon" />`;
   shareButtonElem.addEventListener("click", copyStats);
   containerElem.appendChild(shareButtonElem);
@@ -142,16 +142,16 @@ function updateGuessStat() {
   const guessStats = document.getElementById("game-stats");
   const formattedProductPrice = productPrice.toFixed(2);
   if (gameState.hasWon) {
-    guessStats.innerHTML = `<center>You win! Congratulations!🎉</center>`;
-    guessStats.innerHTML += `<center>The price was €${formattedProductPrice}</center>`;
+    guessStats.innerHTML = `<center>Печелиш! Поздравления!🎉</center>`;
+    guessStats.innerHTML += `<center>Цената беше €${formattedProductPrice}</center>`;
     return;
   }
 
   if (gameState.guesses.length === 6) {
-    guessStats.innerHTML = `<center>Better luck next time!</center>`;
-    guessStats.innerHTML += `<center>The price was €${formattedProductPrice}</center>`;
+    guessStats.innerHTML = `<center>Следващия път ще имаш повече късмет!</center>`;
+    guessStats.innerHTML += `<center>Цената беше €${formattedProductPrice}</center>`;
   } else {
-    guessStats.innerHTML = `Guess: ${gameState.guesses.length + 1}/6`;
+    guessStats.innerHTML = `Опит: ${gameState.guesses.length + 1}/6`;
   }
 }
 
@@ -287,7 +287,7 @@ function addEventListeners() {
     input.setAttribute("placeholder", "0.00");
   });
   input.addEventListener("blur", () => {
-    input.setAttribute("placeholder", "Enter a guess...");
+    input.setAttribute("placeholder", "Въведи цена...");
   });
 }
 
@@ -295,7 +295,7 @@ function removeEventListeners() {
   buttonInput.setAttribute("disabled", "");
   buttonInput.classList.remove("active");
   input.setAttribute("disabled", "");
-  input.setAttribute("placeholder", "Game Over!");
+  input.setAttribute("placeholder", "Играта приключи!");
   input.removeEventListener("keydown", inputEventListener);
   buttonInput.removeEventListener("click", buttonEventListener);
 }
@@ -438,7 +438,7 @@ function switchState(event) {
   }
 
   function renderInfo() {
-    title.innerHTML = `HOW TO <span class="bildle-red">PLAY</span>`;
+    title.innerHTML = `КАК СЕ <span class="bildle-red">ИГРАЕ</span>`;
     if (!title.classList.contains("info-title")) {
       title.classList.add("info-title");
     }
@@ -446,7 +446,7 @@ function switchState(event) {
   }
 
   function renderStats() {
-    title.innerHTML = `GAME <span class="bildle-red">STATS</span>`;
+    title.innerHTML = `<span class="bildle-red">СТАТИСТИКА</span>`;
 
     renderStatistics();
     graphDistribution();
