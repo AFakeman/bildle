@@ -249,7 +249,7 @@ function copyStats() {
     if (navigator.canShare) {
       navigator
         .share({
-          title: "COSTCODLE",
+          title: "BILDLE",
           text: output,
           url: "https://costcodle.com",
         })
@@ -424,7 +424,7 @@ function switchState(event) {
   }
 
   if (overlayElem.style.display === "flex") {
-    title.innerHTML = `COSTCO<span class="costco-blue">DLE</span>`;
+    title.innerHTML = `<span class="bildle-yellow">BIL</span><span class="bildle-red">DLE</span>`;
     overlayElem.style.display = "none";
     return;
   }
@@ -438,7 +438,7 @@ function switchState(event) {
   }
 
   function renderInfo() {
-    title.innerHTML = `HOW TO <span class="costco-blue">PLAY</span>`;
+    title.innerHTML = `HOW TO <span class="bildle-red">PLAY</span>`;
     if (!title.classList.contains("info-title")) {
       title.classList.add("info-title");
     }
@@ -446,7 +446,7 @@ function switchState(event) {
   }
 
   function renderStats() {
-    title.innerHTML = `GAME <span class="costco-blue">STATS</span>`;
+    title.innerHTML = `GAME <span class="bildle-red">STATS</span>`;
 
     renderStatistics();
     graphDistribution();

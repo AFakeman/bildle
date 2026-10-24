@@ -46,12 +46,12 @@ img {
   user-select: none;
 }
 
-.costco-red {
-  color: rgb(227, 42, 54);
+.bildle-yellow {
+  color: rgb(240, 180, 0);
 }
 
-.costco-blue {
-  color: rgb(0, 96, 169);
+.bildle-red {
+  color: rgb(227, 42, 54);
 }
 
 .hide {
@@ -90,7 +90,11 @@ img {
 }
 
 .title {
-  font-size: 60px;
+  flex: 1;
+  min-width: 0;
+
+  font-size: 50px;
+  white-space: nowrap;
 }
 
 .info-title {
@@ -98,6 +102,8 @@ img {
 }
 
 #info-button {
+  flex: 0 0 30px;
+
   font-family: "PT Mono", monospace;
   font-size: 55px;
 
@@ -112,6 +118,8 @@ img {
 }
 
 #stat-button {
+  flex: 0 0 30px;
+
   font-size: 30px;
 
   width: 30px;
