@@ -451,6 +451,10 @@ function switchState(event) {
   function renderStats() {
     title.innerHTML = `<span class="bildle-red">СТАТИСТИКА</span>`;
 
+    if (!title.classList.contains("info-title")) {
+      title.classList.add("info-title");
+    }
+
     renderStatistics();
     graphDistribution();
 
