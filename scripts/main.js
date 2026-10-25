@@ -427,7 +427,7 @@ function checkGuess(guess) {
 
   const percentAway = calculatePercent(guess);
   const absoluteDifference = Math.abs(Number(guess) - productPrice);
-  const winningDifference = Math.max(productPrice * 0.05, 0.5);
+  const winningDifference = productPrice * 0.1;
 
   if (absoluteDifference <= winningDifference) {
     guessObj.closeness = "guess-win";
