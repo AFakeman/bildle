@@ -105,6 +105,7 @@ img {
 
   font-size: min(50px, 14cqw);
   overflow: hidden;
+  text-align: center;
   text-overflow: clip;
   white-space: nowrap;
 }
